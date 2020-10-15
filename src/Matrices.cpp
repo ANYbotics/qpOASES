@@ -32,8 +32,8 @@
  */
 
 
-#include <qpOASES/Matrices.hpp>
-#include <qpOASES/LapackBlasReplacement.hpp>
+#include <qp_oases/Matrices.hpp>
+#include <qp_oases/LapackBlasReplacement.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

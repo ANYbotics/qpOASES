@@ -33,8 +33,8 @@
  */
 
 
-#include <qpOASES/QProblem.hpp>
-#include <qpOASES/LapackBlasReplacement.hpp>
+#include <qp_oases/QProblem.hpp>
+#include <qp_oases/LapackBlasReplacement.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

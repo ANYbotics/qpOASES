@@ -57,6 +57,7 @@ GETTING STARTED
    On this webpage you will also find further support such as a list of 
    questions posed by other users.
 
+4. The changelog for this package is available in the VERSIONS file in the root of the repository.
 
 
 CONTACT THE AUTHORS

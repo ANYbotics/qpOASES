@@ -32,8 +32,8 @@
  */
 
 
-#include <qpOASES/Utils.hpp>
-#include <qpOASES/LapackBlasReplacement.hpp>
+#include <qp_oases/Utils.hpp>
+#include <qp_oases/LapackBlasReplacement.hpp>
 
 
 extern "C" void DPOTRF(	const char* uplo, const la_uint_t* _n, double* a,

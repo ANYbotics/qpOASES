@@ -33,7 +33,7 @@
  */
 
 
-#include <qpOASES/Indexlist.hpp>
+#include <qp_oases/Indexlist.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

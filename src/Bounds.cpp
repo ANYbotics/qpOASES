@@ -33,7 +33,7 @@
  */
 
 
-#include <qpOASES/Bounds.hpp>
+#include <qp_oases/Bounds.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

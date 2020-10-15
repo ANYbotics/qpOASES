@@ -34,7 +34,7 @@
  */
 
 
-#include <qpOASES/SQProblem.hpp>
+#include <qp_oases/SQProblem.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

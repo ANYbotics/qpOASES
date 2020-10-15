@@ -33,7 +33,7 @@
  */
 
 
-#include <qpOASES/SparseSolver.hpp>
+#include <qp_oases/SparseSolver.hpp>
 
 #ifndef __MATLAB__
 # include <cstdarg>

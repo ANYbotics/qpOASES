@@ -36,7 +36,7 @@
 
 #include <stdlib.h>
 
-#include <qpOASES.hpp>
+#include <qp_oases/qpOASES.hpp>
 #include "example4CP.cpp"
 
 

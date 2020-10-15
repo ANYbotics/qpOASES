@@ -34,8 +34,8 @@
  *	systems.
  */
 
-#include <qpOASES/SQProblemSchur.hpp>
-#include <qpOASES/LapackBlasReplacement.hpp>
+#include <qp_oases/SQProblemSchur.hpp>
+#include <qp_oases/LapackBlasReplacement.hpp>
 
 
 #ifndef __MATLAB__

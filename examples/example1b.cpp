@@ -32,8 +32,7 @@
  */
 
 
-#include <qpOASES.hpp>
-
+#include <qp_oases/qpOASES.hpp>
 
 /** Example for qpOASES main function using the QProblemB class. */
 int main( )

@@ -35,7 +35,7 @@
 
 
 
-#include <qpOASES.hpp>
+#include <qp_oases/qpOASES.hpp>
 
 #include "qrecipe_data.hpp"
 

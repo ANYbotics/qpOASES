@@ -33,7 +33,7 @@
  */
 
 
-#include <qpOASES/Flipper.hpp>
+#include <qp_oases/Flipper.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

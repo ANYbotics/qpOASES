@@ -34,7 +34,7 @@
  */
 
 
-#include <qpOASES/extras/SolutionAnalysis.hpp>
+#include <qp_oases/extras/SolutionAnalysis.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

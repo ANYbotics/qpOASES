@@ -36,8 +36,8 @@
  */
 
 
-#include <qpOASES/extras/OQPinterface.hpp>
-#include <qpOASES/QProblem.hpp>
+#include <qp_oases/extras/OQPinterface.hpp>
+#include <qp_oases/QProblem.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

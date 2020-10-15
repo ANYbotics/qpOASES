@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+
+  <name>qp_oases</name>
+  <version>0.1.0</version>
+  <description>Library for quadratic programming using online active set strategy</description>
+
+  <license>LGPLv2.1</license>
+  <author email="joachim.ferreau@ch.abb.com">Hans Joachim Ferreau</author>
+  <author email="potschka@iwr.uni-heidelberg.de">Andreas Potschka</author>
+  <author email="christian.kirches@iwr.uni-heidelberg.de">Christian Kirches</author>
+  <maintainer email="avijayan@anybotics.com">Aravind Vijayan</maintainer>
+  <maintainer email="scaron@anybotics.com">Stéphane Caron</maintainer>
+  <url type="website">https://github.com/anybotics/qpOASES</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+<!--   <build_depend>cmake_clang_tools</build_depend> -->
+
+  <test_depend>gtest</test_depend>
+<!--   <test_depend>cmake_code_coverage</test_depend> -->
+
+</package>

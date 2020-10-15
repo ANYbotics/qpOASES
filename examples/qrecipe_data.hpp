@@ -23,7 +23,7 @@
 
 
 /**
- *	\file testing/cpp/test_qrecipe.cpp
+ *	\file test/cpp/test_qrecipe.cpp
  *	\author Andreas Potschka
  *	\version 3.2
  *	\date 2007-2017

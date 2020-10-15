@@ -20,137 +20,177 @@
 ##     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 ##
 
-
-
 ##
 ##     Filename:  CMakeLists.txt
-##     Author:    Hans Joachim Ferreau (thanks to Milan Vukov)
-##     Version:   3.2
-##     Date:      2007-2017
+##     Author:    Hans Joachim Ferreau (thanks to Milan Vukov), Aravind Vijayan (ANYbotics)
+##     Version:   3.2.1
 ##
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.5.1)
+project(qp_oases)
 
-PROJECT(qpOASES CXX)
-SET(PACKAGE_NAME "qpOASES")
-SET(PACKAGE_VERSION "3.2.0")
-SET(PACKAGE_SO_VERSION "3.2")
-SET(PACKAGE_DESCRIPTION "An implementation of the online active set strategy")
-SET(PACKAGE_AUTHOR "Hans Joachim Ferreau, Andreas Potschka, Christian Kirches et al.")
-SET(PACKAGE_MAINTAINER "Hans Joachim Ferreau, Andreas Potschka, Christian Kirches et al.")
-SET(PACKAGE_URL "https://projects.coin-or.org/qpOASES")
+set(CMAKE_CXX_STANDARD 11)
 
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/libs)
+add_compile_options(-Wall -pedantic -Wfloat-equal -Wshadow -DLINUX -finline-functions -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__)
 
-IF( NOT CMAKE_VERBOSE_MAKEFILE )
-    SET( CMAKE_VERBOSE_MAKEFILE OFF )
-ENDIF( NOT CMAKE_VERBOSE_MAKEFILE )
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-IF( NOT CMAKE_BUILD_TYPE )
-    SET(CMAKE_BUILD_TYPE Release CACHE STRING
-        "Choose the type of build, options are: None Debug Release RelWithDebInfo MinSizeRel."
-        FORCE
-        )
-ENDIF( NOT CMAKE_BUILD_TYPE )
-
-
-option(QPOASES_BUILD_EXAMPLES "Build examples." ON)
-
-
-############################################################
-#################### compiler flags ########################
-############################################################
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D__NO_COPYRIGHT__")
-IF ( UNIX )
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wfloat-equal -Wshadow -DLINUX")
-    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_DEBUG} -O3 -finline-functions")
-ELSEIF( WINDOWS )
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -nologo -EHsc -DWIN32")
-ENDIF()
-
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -D__DEBUG__")
-
-############################################################
-######################## rpath #############################
-############################################################
-# use, i.e. don't skip the full RPATH for the build tree
-set(CMAKE_SKIP_BUILD_RPATH  FALSE)
-
-# when building, don't use the install RPATH already
-# (but later on when installing)
-set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
-
-set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/lib/casadi")
-
-# add the automatically determined parts of the RPATH
-# which point to directories outside the build tree to the install RPATH
-set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-
-# the RPATH to be used when installing, but only if it's not a system directory
-list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
-if("${isSystemDir}" STREQUAL "-1")
-   set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib:${CMAKE_INSTALL_PREFIX}/lib/casadi")
-endif("${isSystemDir}" STREQUAL "-1")
-
-
-
-############################################################
-#################### build and install #####################
-############################################################
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/include)
-
-# compile qpOASES libraries
-FILE(GLOB SRC src/*.cpp)
-
-# library
-ADD_LIBRARY(qpOASES STATIC ${SRC})
-INSTALL(TARGETS qpOASES
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION lib
+find_package(catkin REQUIRED)
+catkin_package(
+  INCLUDE_DIRS
+    include
+  LIBRARIES
+    ${PROJECT_NAME}
+  CATKIN_DEPENDS
 )
-SET_TARGET_PROPERTIES(
-    qpOASES
-    PROPERTIES
-    SOVERSION ${PACKAGE_SO_VERSION}
-    )
 
-# headers
-INSTALL(FILES include/qpOASES.hpp
-  DESTINATION include)
-INSTALL(DIRECTORY include/qpOASES
-  DESTINATION include
-  FILES_MATCHING PATTERN "*.hpp"
-  PATTERN "*.ipp"
-  PATTERN ".svn" EXCLUDE)
+add_library(${PROJECT_NAME}
+  src/BLASReplacement.cpp
+  src/Bounds.cpp
+  src/Constraints.cpp
+  src/Flipper.cpp
+  src/Indexlist.cpp
+  src/LAPACKReplacement.cpp
+  src/Matrices.cpp
+  src/MessageHandling.cpp
+  src/Options.cpp
+  src/OQPinterface.cpp
+  src/QProblem.cpp
+  src/QProblemB.cpp
+  src/SolutionAnalysis.cpp
+  src/SparseSolver.cpp
+  src/SQProblem.cpp
+  src/SQProblemSchur.cpp
+  src/SubjectTo.cpp
+  src/Utils.cpp
+)
+
+add_dependencies(${PROJECT_NAME}
+  ${catkin_EXPORTED_TARGETS}
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+  include
+)
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+  ${catkin_INCLUDE_DIRS}
+)
+
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
+
+install(
+  TARGETS
+  ${PROJECT_NAME}
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+install(
+  DIRECTORY include/${PROJECT_NAME}/
+  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
 
 ############################################################
 ######################### examples #########################
 ############################################################
 
-if (QPOASES_BUILD_EXAMPLES)
-    # compile qpOASES examples
-    SET(EXAMPLE_NAMES
-        example1
-        example1a
-        example1b
-        example2
-        example3
-        example3b
-        example4
-        example5
-        exampleLP
-        qrecipe
-        qrecipeSchur
+# compile qpOASES examples
+SET(EXAMPLE_NAMES
+  example1
+  example1a
+  example1b
+  example2
+  example3
+  example3b
+  example4
+  example5
+  exampleLP
+  qrecipe
+  qrecipeSchur
+)
+
+FOREACH (ELEMENT ${EXAMPLE_NAMES})
+    add_executable(${PROJECT_NAME}_${ELEMENT}
+      examples/${ELEMENT}.cpp
+    )
+    target_include_directories(${PROJECT_NAME}_${ELEMENT} PRIVATE
+      include
+    )
+    target_include_directories(${PROJECT_NAME}_${ELEMENT} SYSTEM PUBLIC
+      ${catkin_INCLUDE_DIRS}
+    )
+    target_link_libraries(${PROJECT_NAME}_${ELEMENT}
+      ${PROJECT_NAME}
+    )
+    install(
+      TARGETS
+      ${PROJECT_NAME}_${ELEMENT}
+      ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+      LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+      RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
+ENDFOREACH (ELEMENT ${EXAMPLE_NAMES})
+
+
+##########
+## Test ##
+##########
+## GTest.
+if(CATKIN_ENABLE_TESTING)
+    catkin_add_gtest(test_${PROJECT_NAME}
+      test/TestExample1.cpp
+      test/TestExample1a.cpp
+      test/TestExample1b.cpp
+      test/TestExample2.cpp
+      test/TestExample4.cpp
+      test/TestExample5.cpp
+      test/TestExample6.cpp
+      test/TestExample7.cpp
+      test/TestExampleLP.cpp
+      test/TestExternalCholesky1.cpp
+      test/TestGradientShift.cpp
+      test/TestGuessedWS1.cpp
+      test/TestIdentitySQProblem.cpp
+      test/TestIndexList.cpp
+      test/TestInfeasible1.cpp
+      test/TestJanick1.cpp
+      test/TestJanick2.cpp
+      test/TestMatrices.cpp
+      test/TestReleaseBug.cpp
+      test/TestSmallSchur.cpp
+      test/TestVanBareIsUnboundedQP.cpp
+    )
+    target_include_directories(test_${PROJECT_NAME} PRIVATE
+      include
+      test
+    )
+    target_include_directories(test_${PROJECT_NAME} SYSTEM PUBLIC
+      ${catkin_INCLUDE_DIRS}
+    )
+    target_link_libraries(test_${PROJECT_NAME}
+      gtest_main
+      ${PROJECT_NAME}
     )
 
-    FOREACH(ELEMENT ${EXAMPLE_NAMES})
-        ADD_EXECUTABLE(${ELEMENT} examples/${ELEMENT}.cpp)
-        TARGET_LINK_LIBRARIES(${ELEMENT} qpOASES)
-    ENDFOREACH(ELEMENT ${EXAMPLE_NAMES})
-endif(QPOASES_BUILD_EXAMPLES)
+    # Generate test coverage report -> ${PROJECT_BINARY_DIR}/cmake_code_coverage/${PROJECT_NAME}/index.html
+    find_package(cmake_code_coverage QUIET)
+    if(cmake_code_coverage_FOUND)
+        add_gtest_coverage(
+          TEST_BUILD_TARGETS
+          test_${PROJECT_NAME}
+    )
+    endif(cmake_code_coverage_FOUND)
+endif()
 
-##
-##   end of file
-##
+###########
+## Clang ##
+###########
+
+#find_package(cmake_clang_tools QUIET)
+#if(cmake_clang_tools_FOUND)
+#    add_default_clang_tooling()
+#endif(cmake_clang_tools_FOUND)

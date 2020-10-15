@@ -50,7 +50,7 @@
 #endif
 
 
-#include <qpOASES/Utils.hpp>
+#include <qp_oases/Utils.hpp>
 
 
 #ifdef __NO_SNPRINTF__

@@ -33,7 +33,7 @@
  */
 
 
-#include <qpOASES/Options.hpp>
+#include <qp_oases/Options.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

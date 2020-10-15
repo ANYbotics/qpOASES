@@ -39,8 +39,8 @@
   #include "mex.h"
 #endif
 
-#include <qpOASES/MessageHandling.hpp>
-#include <qpOASES/Utils.hpp>
+#include <qp_oases/MessageHandling.hpp>
+#include <qp_oases/Utils.hpp>
 
 
 BEGIN_NAMESPACE_QPOASES

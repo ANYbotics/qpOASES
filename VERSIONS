@@ -25,6 +25,13 @@
 VERSION HISTORY
 ===============
 
+3.2.1 (released on 12th October 2020):
+--------------------------------------
+
++ Catkinized qpOASES under the package name `qp_oases`
++ Converted existing tests to Google Tests.
++ Removed interfaces for C, Python and Matlab.
+
 
 3.2 (released on 1st September 2015, last updated on 26th April 2017):
 ----------------------------------------------------------------------
