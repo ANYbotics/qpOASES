@@ -31,7 +31,7 @@ project(qp_oases)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_compile_options(-Wall -pedantic -Wfloat-equal -Wshadow -DLINUX -finline-functions -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__)
+add_compile_options(-Wall -pedantic -Wfloat-equal -Wshadow -DLINUX -finline-functions -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__ -D__AVOID_LA_NAMING_CONFLICTS__)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
