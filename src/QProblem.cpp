@@ -1527,7 +1527,7 @@ returnValue QProblem::solveQP(	const real_t* const g_new,
 
 	int_t BC_idx;
 	SubjectToStatus BC_status;
-	BooleanType BC_isBound;
+	BooleanType BC_isBound = BT_FALSE;
 
 	real_t homotopyLength;
 
