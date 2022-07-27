@@ -10,7 +10,7 @@
   <author email="potschka@iwr.uni-heidelberg.de">Andreas Potschka</author>
   <author email="christian.kirches@iwr.uni-heidelberg.de">Christian Kirches</author>
   <maintainer email="avijayan@anybotics.com">Aravind Vijayan</maintainer>
-  <maintainer email="scaron@anybotics.com">Stéphane Caron</maintainer>
+  <maintainer email="rverschueren@anybotics.com">Robin Verschueren</maintainer>
   <url type="website">https://github.com/anybotics/qpOASES</url>
 
   <buildtool_depend>catkin</buildtool_depend>
