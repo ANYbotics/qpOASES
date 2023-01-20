@@ -2,7 +2,7 @@
 <package format="2">
 
   <name>qp_oases</name>
-  <version>0.1.10</version>
+  <version>0.1.11</version>
   <description>Library for quadratic programming using online active set strategy</description>
 
   <license>LGPLv2.1</license>
