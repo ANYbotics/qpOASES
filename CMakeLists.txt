@@ -29,7 +29,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 project(qp_oases)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 add_compile_options(-Wall -pedantic -Wfloat-equal -Wshadow -DLINUX -finline-functions -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__ -D__AVOID_LA_NAMING_CONFLICTS__)
 
