@@ -1,21 +1,22 @@
-<?xml version="1.0"?>
-<package format="2">
+<?xml version='1.0' encoding='utf-8'?>
+<package format="3">
 
   <name>qp_oases</name>
   <version>0.1.22</version>
   <description>Library for quadratic programming using online active set strategy</description>
-
-  <license>LGPLv2.1</license>
   <author email="joachim.ferreau@ch.abb.com">Hans Joachim Ferreau</author>
   <author email="potschka@iwr.uni-heidelberg.de">Andreas Potschka</author>
   <author email="christian.kirches@iwr.uni-heidelberg.de">Christian Kirches</author>
-  <maintainer email="avijayan@anybotics.com">Aravind Vijayan</maintainer>
-  <maintainer email="rverschueren@anybotics.com">Robin Verschueren</maintainer>
+  <maintainer email="psankar@anybotics.com">Prajish Sankar</maintainer>
+  <maintainer email="jjunger@anybotics.com">Jonas Junger</maintainer>
+  <license>LGPLv2.1</license>
   <url type="website">https://github.com/anybotics/qpOASES</url>
-
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <test_depend>gtest</test_depend>
-<!--   <test_depend>cmake_code_coverage</test_depend> -->
-
+  <buildtool_depend condition="$ROS_VERSION == 1">catkin</buildtool_depend>
+  <buildtool_depend condition="$ROS_VERSION == 2">ament_cmake</buildtool_depend>
+  <test_depend condition="$ROS_VERSION == 1">gtest</test_depend>
+<!--   <test_depend condition="$ROS_VERSION == 1">cmake_code_coverage</test_depend> -->
+  <test_depend condition="$ROS_VERSION == 2">ament_cmake_gtest</test_depend>
+  <export>
+    <build_type condition="$ROS_VERSION == 2">ament_cmake</build_type>
+  </export>
 </package>

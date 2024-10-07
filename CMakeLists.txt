@@ -26,7 +26,10 @@
 ##     Version:   3.2.1
 ##
 
-cmake_minimum_required(VERSION 3.5.1)
+# NOTE(apoghosov): The comment above is just for historical reasons ... the package was migrated to ROS2 and the file
+# was changed.
+
+cmake_minimum_required(VERSION 3.16.3)
 project(qp_oases)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -34,6 +37,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_compile_options(-Wall -pedantic -Wfloat-equal -Wshadow -DLINUX -finline-functions -D__NO_COPYRIGHT__ -D__SUPPRESSANYOUTPUT__ -D__AVOID_LA_NAMING_CONFLICTS__)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+if("$ENV{ROS_VERSION}" STREQUAL "1")
 
 find_package(catkin REQUIRED)
 catkin_package(
@@ -194,3 +199,137 @@ endif()
 #if(cmake_clang_tools_FOUND)
 #    add_default_clang_tooling()
 #endif(cmake_clang_tools_FOUND)
+
+
+else() # ROS version 2
+
+set(PACKAGE_DEPENDENCIES
+  )
+
+find_package(ament_cmake REQUIRED)
+
+foreach(PKG ${PACKAGE_DEPENDENCIES})
+  find_package(${PKG} REQUIRED)
+endforeach()
+
+add_library(${PROJECT_NAME} SHARED
+  src/BLASReplacement.cpp
+  src/Bounds.cpp
+  src/Constraints.cpp
+  src/Flipper.cpp
+  src/Indexlist.cpp
+  src/LAPACKReplacement.cpp
+  src/Matrices.cpp
+  src/MessageHandling.cpp
+  src/Options.cpp
+  src/OQPinterface.cpp
+  src/QProblem.cpp
+  src/QProblemB.cpp
+  src/SolutionAnalysis.cpp
+  src/SparseSolver.cpp
+  src/SQProblem.cpp
+  src/SQProblemSchur.cpp
+  src/SubjectTo.cpp
+  src/Utils.cpp
+  )
+
+target_include_directories(${PROJECT_NAME}
+  PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
+  )
+
+ament_target_dependencies(${PROJECT_NAME} ${PACKAGE_DEPENDENCIES})
+
+install(DIRECTORY include/
+  DESTINATION include/${PROJECT_NAME}
+  )
+
+install(TARGETS ${PROJECT_NAME}
+  EXPORT export_${PROJECT_NAME}
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  RUNTIME DESTINATION bin
+  )
+
+ament_export_targets(export_${PROJECT_NAME} HAS_LIBRARY_TARGET)
+
+##########
+## Test ##
+##########
+
+if(BUILD_TESTING)
+  
+  ############################################################
+  ######################### examples #########################
+  ############################################################
+
+  # compile qpOASES examples
+  # FIXME(apoghosov): do we really need to compile them?
+
+  set(EXAMPLE_NAMES
+    example1
+    example1a
+    example1b
+    example2
+    example3
+    example3b
+    example4
+    example5
+    exampleLP
+    qrecipe
+    qrecipeSchur
+    )
+
+  foreach(ELEMENT ${EXAMPLE_NAMES})
+
+    add_executable(${PROJECT_NAME}_${ELEMENT}
+      examples/${ELEMENT}.cpp
+      )
+
+    target_link_libraries(${PROJECT_NAME}_${ELEMENT}
+      ${PROJECT_NAME}
+      )
+
+  endforeach(ELEMENT ${EXAMPLE_NAMES})
+
+  find_package(ament_cmake_gtest REQUIRED)
+  
+  ament_add_gtest(test_${PROJECT_NAME}
+    test/TestExample1.cpp
+    test/TestExample1a.cpp
+    test/TestExample1b.cpp
+    test/TestExample2.cpp
+    test/TestExample4.cpp
+    test/TestExample5.cpp
+    test/TestExample6.cpp
+    test/TestExample7.cpp
+    test/TestExampleLP.cpp
+    test/TestExternalCholesky1.cpp
+    test/TestGradientShift.cpp
+    test/TestGuessedWS1.cpp
+    test/TestIdentitySQProblem.cpp
+    test/TestIndexList.cpp
+    test/TestInfeasible1.cpp
+    test/TestJanick1.cpp
+    test/TestJanick2.cpp
+    test/TestMatrices.cpp
+    test/TestReleaseBug.cpp
+    test/TestSmallSchur.cpp
+    test/TestVanBareIsUnboundedQP.cpp
+    )
+
+  target_link_libraries(test_${PROJECT_NAME} ${PROJECT_NAME})
+
+  # FIXME(apoghosov): is this the way we should do ROS2 code coverage
+  find_package(cmake_code_coverage QUIET)
+
+  if(cmake_code_coverage_FOUND)
+    add_gtest_coverage(TEST_BUILD_TARGETS test_${PROJECT_NAME})
+  endif(cmake_code_coverage_FOUND)
+
+endif()
+
+ament_package()
+
+endif()
