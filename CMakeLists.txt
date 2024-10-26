@@ -203,6 +203,8 @@ endif()
 
 else() # ROS version 2
 
+add_compile_options(-Wno-overloaded-virtual)
+
 set(PACKAGE_DEPENDENCIES
   )
 
